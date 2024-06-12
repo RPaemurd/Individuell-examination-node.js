@@ -1,0 +1,22 @@
+{
+  "name": "grupp-3---node",
+  "version": "1.0.0",
+  "description": "Börja med att köra npm init -y, nedb-promises, joi, nodemon, express, uuid",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "joi": "^17.13.1",
+    "nedb-promises": "^6.2.3",
+    "nodemon": "^3.1.2",
+    "uuid": "^9.0.1"
+  }
+}
