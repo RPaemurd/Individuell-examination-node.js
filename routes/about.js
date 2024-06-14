@@ -1,14 +1,13 @@
-import { Router } from 'express';
-import nedb from 'nedb-promises';
+import express from 'express';
+const router = express.Router();
 
-const aboutDB = new nedb({ filename: 'about.db', autoload: true });
+//const aboutDB = new nedb({ filename: 'about.db', autoload: true });
 
 
-const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const aboutText = await aboutDB.find({});
+    // const aboutText = await aboutDB.find({});
     console.log("Temp text", aboutText);
     res.json(aboutText);
   } catch (error) {
@@ -18,4 +17,4 @@ router.get('/', async (req, res) => {
 });
 
 export default router;
-export { aboutDB };
+//export { aboutDB };

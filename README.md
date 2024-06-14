@@ -19,11 +19,11 @@ Endpoint för om oss: http://localhost:8080/about
 
 
 För registrering:
-http://localhost:8080/auth/register
+http://localhost:8080/user/register
 Gör POST-anrop. Skicka med { "username" : "ditt användarnamn", "password" : "ditt lösenord"}
 
 För login : 
-http://localhost:8080/auth/login
+http://localhost:8080/user/login
 Gör POST-anrop. Skicka med { "username" : "ditt användarnamn", "password" : "ditt lösenord"}
 
 För att lägga en beställning som gäst:

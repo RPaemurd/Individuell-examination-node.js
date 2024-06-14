@@ -1,101 +1,72 @@
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import errorHandler from "./middlewares/errorHandler.js";
-import orderRouter from "./routes/order.js";
-import cartRouter from "./routes/cart.js";
-import authRouter from "./routes/auth.js";
-import checkoutRouter from "./routes/checkout.js";
-import orderHistoryRouter from "./routes/orderHistory.js";
-import aboutRouter from "./routes/about.js"
-import statusRouter from "./routes/status.js";
-import notFoundMiddleware from "./middlewares/urlNotFound.js";
+import express from 'express';
+import { connect } from 'mongoose';
+import 'dotenv/config';
+import aboutRoute from './routes/about.js';
+import userRoute from './routes/user.js';
+import stockRoute from './routes/stock.js';
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 const app = express();
-const PORT = 8080;
 
-global.currentUser = null;
-
+//Middleware to parser JSON bodies
 app.use(express.json());
 
+// Routes
+app.use('/about', aboutRoute);
+app.use('/user', userRoute);
+app.use('/stock', stockRoute);
 
 
-app.use((req, res, next) => {
-    console.log(`${req.method} request for '${req.url}' - ${JSON.stringify(req.body)}`);
-    next();
-});
-
-app.use('/menu', orderRouter);
-app.use('/cart', cartRouter);
-app.use('/auth', authRouter);
-app.use('/checkout', checkoutRouter);
-app.use('/orderHistory', orderHistoryRouter);
-app.use('/about', aboutRouter);
-app.use('/status', statusRouter);
-app.use(notFoundMiddleware)
 
 app.get('/', (req, res) => {
-    res.send('Server is running');
+    res.send('Startsidan');
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Connect to DB start server
+const startServer = async () => {
+  try {
+    await connect(process.env.DB_CONNECTION, {
+    });
+    console.log("Connected to the database");
 
-app.use((req, res, next) => {
-    const error = new Error('Page not found');
-    error.status = 404;
-    next(error);
-});
+    app.listen(3030, () => {
+      console.log('Server is running on port 3030');
+    });
+  } catch (error) {
+    console.error("Error connecting to the database", error);
+  }
+};
 
-app.use(errorHandler);
-
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+startServer();
 
 
+// 
+// import path from "path";
+// import { fileURLToPath } from "url";
+// import errorHandler from "./middlewares/errorHandler.js";
+// import orderRouter from "./routes/order.js";
+// import cartRouter from "./routes/cart.js";
+// import checkoutRouter from "./routes/checkout.js";
+// import orderHistoryRouter from "./routes/orderHistory.js";
+// import statusRouter from "./routes/status.js";
+// import notFoundMiddleware from "./middlewares/urlNotFound.js";
 
-// const users = [
-//     {id: 1, username: 'admin', password: 'admin'},
-// ]
 
-// const menu = [
-//     {
-//         "id":1,
-//         "title":"Bryggkaffe",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":39
-//       },
-//       {
-//         "id":2,
-//         "title":"Caffè Doppio",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":49
-//       },
-//       {
-//         "id":3,
-//         "title":"Cappuccino",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":49
-//       },
-//       {
-//         "id":4,
-//         "title":"Latte Macchiato",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":49
-//       },
-//       {
-//         "id":5,
-//         "title":"Kaffe Latte",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":54
-//       },
-//       {
-//         "id":6,
-//         "title":"Cortado",
-//         "desc":"Bryggd på månadens bönor.",
-//         "price":39
-//       }
-// ]
-// database.insert(menu)
+// app.use("/menu", orderRouter);
+// app.use("/cart", cartRouter);
+// app.use("/checkout", checkoutRouter);
+// app.use("/orderHistory", orderHistoryRouter);
+// app.use("/status", statusRouter);
+// app.use(notFoundMiddleware);
+
+
+// app.use(express.static(path.join(__dirname, "public")));
+
+// app.use((req, res, next) => {
+//   const error = new Error("Page not found");
+//   error.status = 404;
+//   next(error);
+// });
+
