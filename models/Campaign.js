@@ -1,18 +1,24 @@
-import mongoose from "mongoose";
+import { Schema, model } from 'mongoose';
 
-const CampaignSchema = mongoose.Schema({
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  }
+});
+
+const campaignSchema = new Schema({
   products: {
-    type: Object,
-    required: true
+    type: [productSchema],
+    required: true,
   },
   price: {
     type: Number,
     required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+    min: 0, // Ser till att numret är positivt
   },
 });
 
-export default mongoose.model("Campaigns", CampaignSchema);
+
+
+export default model('Campaign', campaignSchema);

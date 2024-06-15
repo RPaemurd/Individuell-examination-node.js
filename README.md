@@ -1,46 +1,53 @@
-Börja med att köra npm init -y, nedb-promises, joi, nodemon, express, uuid
+Börja med att köra npm install
 
-
-
-Vi har alla i gruppen bidragit med kod men pga strul med tider så är det bara Alexander och Baran som pushat upp till main. Vi har skickat vår kod över discord och lagt in det separat för att få det att fungera på ett relativt vettigt sätt. 
-
-
-Menyn:
-För att kolla menyn : http://localhost:8080/menu
-För att kolla efter specifikt id: http://localhost:8080/menu/  (här skriver du in det långa id som du hittar i airbean.db t.ex. Az3b6aeCng6rbrET)
-
-Varukorgen:
-För att kolla innehållet i varukorgen : http://localhost:8080/cart
-För att lägga till i varukorgen så sätt ett POST anrop och skickar med all data från det kaffet du vill ha som ligger i airbean.db. Detta görs till http://localhost:8080/cart
-För att ta bort i varukorgen så sätt ett POST anrop och skickar med all data från det kaffet du vill ha som ligger i airbean.db. Detta görs till http://localhost:8080/cart/ (här skriver du det långa id:et. T.ex. http://localhost:8080/cart/XFMyYITYP52LXcYq)
-
-Om oss:
-Endpoint för om oss: http://localhost:8080/about
 
 
 För registrering:
-http://localhost:8080/user/register
-Gör POST-anrop. Skicka med { "username" : "ditt användarnamn", "password" : "ditt lösenord"}
+http://localhost:3030/user/register
+Gör POST-anrop. Skicka med { "username" : "ditt användarnamn", "password" : "ditt lösenord", "isAdmin": Boolean}
 
 För login : 
-http://localhost:8080/user/login
+http://localhost:3030/user/login
 Gör POST-anrop. Skicka med { "username" : "ditt användarnamn", "password" : "ditt lösenord"}
+Tillbaka skickas en token för att kunna använda stock funktioner
 
-För att lägga en beställning som gäst:
-Gå till http://localhost:8080/checkout och gör ett POST-anrop
-Gå sedan till http://localhost:8080/status för att se när ditt kaffe levereras
+För att hantera lagret:
+http://localhost:3030/stock
+GET för att kunna se vad som finns i lager
 
-För att lägga en beställning som användare
-Gå till http://localhost:8080/checkout därefter skriver du i headers key : Content-Type, Value : application.json
-Raden under i headers. Key : user-id, Value : (här skriver du in ditt unika id som du hittar i users.db)
-Sen gör du ett POST-anrop.
+POST för att kunna lägga till en produkt
+{
+  "id": "5",
+  "title": "Gringo Minimum",
+  "desc": "MINI MINI",
+  "price": 20
+}
+Datum sparas också när den sparas
+I headern behöver Authorization med den token som gavs vid inloggning vara med 
 
-För att se orderhistory:
-http://localhost:8080/orderhistory/ (här skriver du in din användares unika id)
+PUT för att ändra en produkt
+Samma typ av request utan id nu uppdateras även modifiedAt när produkten läggs till
+I headern behöver Authorization med den token som gavs vid inloggning vara med 
+{
+  "title": "Gringo Dark ",
+  "desc": "No blend",
+  "price": 100
+}
 
-För att se status på din order: 
-http://localhost:8080/status
+DELETE görs med adressen med id på slutet ex localhost:3030/stock/666b4e7e722914432f85f19e
+Id är det som ges till produkten av mongoDB
+I headern behöver Authorization med den token som gavs vid inloggning vara med 
 
 
+För att lägga till kampanjer:
+http://localhost:3030/user/campaigns
 
+En vanlig get för att se alla kampanjer
+
+POST för att skapa en kampanj
+{
+    "products":[{"title": "Gringo maximus"}, {"title": "Gringo Minimum"}],
+    "price": 120
+}
+Kräver att products är en array av objekt och att price är positivt
 

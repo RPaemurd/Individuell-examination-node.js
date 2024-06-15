@@ -4,6 +4,7 @@ import 'dotenv/config';
 import aboutRoute from './routes/about.js';
 import userRoute from './routes/user.js';
 import stockRoute from './routes/stock.js';
+import campaignRoute from './routes/campaign.js'
 
 
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/about', aboutRoute);
 app.use('/user', userRoute);
 app.use('/stock', stockRoute);
+app.use('/campaign', campaignRoute)
 
 
 

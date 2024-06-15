@@ -28,4 +28,14 @@ const ProductSchema = mongoose.Schema({
   },
 });
 
+ProductSchema.pre('save', function (next) {
+  this.modifiedAt = Date.now();
+  next();
+});
+
+ProductSchema.pre('findOneAndUpdate', function (next) {
+  this._update.modifiedAt = Date.now();
+  next();
+});
+
 export default mongoose.model("Products", ProductSchema);
